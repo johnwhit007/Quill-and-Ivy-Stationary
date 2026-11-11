@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quill & Ivy - Phase 1 Research Workbench (Option B)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #1f2937; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-slate-900 border-b border-slate-800 px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center space-x-3">
+      <div class="bg-emerald-500 text-slate-950 p-2 rounded-lg font-bold text-lg">Q&I</div>
+      <div>
+        <h1 class="font-bold text-slate-100 text-lg">Analyst Field Notebook | Phase 1</h1>
+        <p class="text-xs text-slate-400">Market Research Planning & Design (LC1-P)</p>
+      </div>
+    </div>
+    <div class="flex items-center space-x-3">
+      <button id="exportBtn" onclick="generateSummary()" class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold text-xs px-4 py-2 rounded shadow transition flex items-center space-x-2">
+        <i class="fa-solid fa-file-export"></i>
+        <span>Compile Evidence Summary</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-0 overflow-hidden">
+
+    <!-- Left Column: Context Dossier -->
+    <aside class="lg:col-span-4 bg-slate-900 border-r border-slate-800 p-6 overflow-y-auto custom-scrollbar">
+      <div class="space-y-6">
+        
+        <!-- Scenario Card -->
+        <div class="bg-slate-850 p-4 rounded-xl border border-slate-800 bg-slate-900/60">
+          <div class="flex items-center space-x-2 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-2">
+            <i class="fa-solid fa-briefcase"></i>
+            <span>Client Scenario</span>
+          </div>
+          <h2 class="text-sm font-bold text-slate-200 mb-1">Quill & Ivy Stationery</h2>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            The owner wants to know whether to convert store space for paid in-store workshops (calligraphy, journaling, card-making). Decision due in <strong>8 weeks</strong>. Budget allows 1 survey wave and up to 6 customer interviews.
+          </p>
+        </div>
+
+        <!-- Progress Tracker -->
+        <div>
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Workflow Checklist</h3>
+          <div class="space-y-2 text-xs">
+            <div id="step1Check" class="flex items-center space-x-3 p-2.5 rounded-lg bg-slate-800/40 border border-slate-800 text-slate-400">
+              <i class="fa-solid fa-circle-notch text-slate-500"></i>
+              <span>Step 1: Scoped Decision Framing</span>
+            </div>
+            <div id="step2Check" class="flex items-center space-x-3 p-2.5 rounded-lg bg-slate-800/40 border border-slate-800 text-slate-400">
+              <i class="fa-solid fa-circle-notch text-slate-500"></i>
+              <span>Step 2: Source Evaluation (0/6 Rated)</span>
+            </div>
+            <div id="step3Check" class="flex items-center space-x-3 p-2.5 rounded-lg bg-slate-800/40 border border-slate-800 text-slate-400">
+              <i class="fa-solid fa-circle-notch text-slate-500"></i>
+              <span>Step 3: Comment Coding (0/25 Sorted)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pedagogy Tip Box -->
+        <div class="bg-amber-950/30 border border-amber-800/50 p-4 rounded-xl text-xs text-amber-200/90 leading-relaxed">
+          <div class="flex items-center space-x-2 font-bold mb-1 text-amber-400">
+            <i class="fa-solid fa-lightbulb"></i>
+            <span>Analyst Guidance</span>
+          </div>
+          A weak secondary source rating (e.g., competitor promotional pages) doesn't mean it's useless—it just means you must explicitly flag potential bias when referencing its price cues.
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- Right Column: Interactive Canvas -->
+    <main class="lg:col-span-8 bg-slate-950 p-6 overflow-y-auto custom-scrollbar space-y-8">
+
+      <!-- STEP 1: Decision Framing -->
+      <section class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <span class="text-xs font-bold text-emerald-400 uppercase">Step 1</span>
+            <h2 class="text-lg font-bold text-slate-100">Restate the Business Decision</h2>
+          </div>
+          <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">Constraint: 8-Week Window</span>
+        </div>
+
+        <p class="text-xs text-slate-400 mb-4">
+          Frame the owner's choice clearly. Avoid vague topics ("customer feedback"). Focus on a concrete choice ("Whether to convert store space for paid workshops...").
+        </p>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Decision Statement</label>
+            <textarea id="decisionStmt" rows="2" oninput="validateStep1()" placeholder="State the exact choice the owner must make and the deadline..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs text-slate-200 focus:border-emerald-500 focus:outline-none transition"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Identified Information Gaps</label>
+            <input id="infoGaps" type="text" oninput="validateStep1()" placeholder="e.g., Customer willingness to pay, peak scheduling preferences..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs text-slate-200 focus:border-emerald-500 focus:outline-none transition" />
+          </div>
+
+          <div id="step1Feedback" class="hidden text-xs p-3 rounded-lg"></div>
+        </div>
+      </section>
+
+      <!-- STEP 2: Source Evaluation Matrix -->
+      <section class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <span class="text-xs font-bold text-emerald-400 uppercase">Step 2</span>
+            <h2 class="text-lg font-bold text-slate-100">Evaluate Secondary Source Pack</h2>
+          </div>
+          <span id="sourceRatingCounter" class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">0/6 Evaluated</span>
+        </div>
+
+        <div class="space-y-4" id="sourceContainer">
+          <!-- Sources dynamically injected via JS -->
+        </div>
+      </section>
+
+      <!-- STEP 3: Customer Comment Bucket Sort -->
+      <section class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <span class="text-xs font-bold text-emerald-400 uppercase">Step 3</span>
+            <h2 class="text-lg font-bold text-slate-100">Code Customer Feedback into Themes</h2>
+          </div>
+          <span id="commentCounter" class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full border border-slate-700">0/25 Categorized</span>
+        </div>
+
+        <p class="text-xs text-slate-400 mb-4">Assign each comment to the theme that fits best, then select a representative quote for your evidence summary.</p>
+
+        <!-- Theme Buckets Summary Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+          <div class="bg-slate-950 border border-slate-800 p-3 rounded-lg text-center">
+            <div class="text-xs text-slate-400">Hands-on Interest</div>
+            <div id="count-interest" class="text-xl font-bold text-emerald-400">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 p-3 rounded-lg text-center">
+            <div class="text-xs text-slate-400">Time / Schedule</div>
+            <div id="count-time" class="text-xl font-bold text-amber-400">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 p-3 rounded-lg text-center">
+            <div class="text-xs text-slate-400">Price Sensitivity</div>
+            <div id="count-price" class="text-xl font-bold text-blue-400">0</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 p-3 rounded-lg text-center">
+            <div class="text-xs text-slate-400">Beginner Friendly</div>
+            <div id="count-beginner" class="text-xl font-bold text-purple-400">0</div>
+          </div>
+        </div>
+
+        <!-- Comment List -->
+        <div id="commentList" class="space-y-3 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
+          <!-- Customer comments injected dynamically -->
+        </div>
+      </section>
+
+      <!-- Output Modal / Drawer -->
+      <section id="summaryModal" class="hidden bg-slate-900 border border-emerald-500/50 rounded-xl p-6 space-y-4">
+        <div class="flex justify-between items-center">
+          <h3 class="text-md font-bold text-emerald-400 flex items-center space-x-2">
+            <i class="fa-solid fa-clipboard-check"></i>
+            <span>Compiled Background Evidence Summary Draft</span>
+          </h3>
+          <button onclick="document.getElementById('summaryModal').classList.add('hidden')" class="text-slate-400 hover:text-slate-200">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <textarea id="summaryText" rows="10" readonly class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs font-mono text-slate-300 focus:outline-none"></textarea>
+        <button onclick="copyToClipboard()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold text-xs py-2 rounded transition">
+          Copy Summary to Clipboard
+        </button>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // Sample Sources Data
+    const sources = [
+      { id: "SRC-01", name: "Gov Adult Education & Hobby Spending Data", type: "Government Statistics", recommended: "strong", hint: "High credibility, methodological transparency, minimal bias." },
+      { id: "SRC-02", name: "Craft Association National Workshop Survey", type: "Trade Association", recommended: "strong", hint: "Current, clear sample size, highly relevant to craft workshops." },
+      { id: "SRC-03", name: "Experiential Retail Trends Report", type: "Industry Publication", recommended: "moderate", hint: "Useful insights, though method disclosure is somewhat general." },
+      { id: "SRC-04", name: "Competitor Studio Workshop Pricing Page", type: "Commercial Site", recommended: "weak", hint: "High promotional bias; usable only as a market price cue with caveats." },
+      { id: "SRC-05", name: "Crafting Today Blog Post", type: "Personal Blog", recommended: "weak", hint: "Undated, unverified sample, high subjective opinion." },
+      { id: "SRC-06", name: "National Arts & Crafts Report (2020)", type: "Archival Report", recommended: "weak", hint: "Outdated methodology (6 years old), limited current applicability." }
+    ];
+
+    // Sample Customer Comments (25 simulated items)
+    const comments = [
+      { id: 1, text: "I'd love to learn calligraphy, but weekends are tough with kids.", theme: "time" },
+      { id: 2, text: "If classes are over $40, I probably wouldn't sign up.", theme: "price" },
+      { id: 3, text: "Hands-on journaling workshops in store would be awesome!", theme: "interest" },
+      { id: 4, text: "I'm a complete beginner, so I hope it's not intimidating.", theme: "beginner" },
+      { id: 5, text: "Card-making on weeknights after 6 PM would work great for me.", theme: "time" },
+      { id: 6, text: "Love the idea of learning from local artisans in the shop.", theme: "interest" },
+      { id: 7, text: "Price is key—stationery is already pricey, so keep fees reasonable.", theme: "price" },
+      { id: 8, text: "Only if materials are included in the price.", theme: "price" },
+      { id: 9, text: "Would love Saturday morning workshops for lettering!", theme: "time" },
+      { id: 10, text: "Are these suitable for people who haven't done craft before?", theme: "beginner" },
+      { id: 11, text: "Great concept, I'd bring a friend to a weekend journaling session.", theme: "interest" },
+      { id: 12, text: "Hard to commit unless the schedule is posted well in advance.", theme: "time" },
+      { id: 13, text: "Under $30 per session feels like a sweet spot.", theme: "price" },
+      { id: 14, text: "In-store events would make me visit the boutique more often.", theme: "interest" },
+      { id: 15, text: "Please offer introductory levels, not just advanced stuff.", theme: "beginner" },
+      { id: 16, text: "I prefer online webinars because of my travel schedule.", theme: "time" },
+      { id: 17, text: "If it includes paper samples to take home, it's worth $50.", theme: "price" },
+      { id: 18, text: "Calligraphy workshops are exactly what's missing in town.", theme: "interest" },
+      { id: 19, text: "Weekdays are impossible, only Sunday afternoons work.", theme: "time" },
+      { id: 20, text: "Step-by-step guidance is super important for novices.", theme: "beginner" },
+      { id: 21, text: "I'd attend if there's a discount for loyalty members.", theme: "price" },
+      { id: 22, text: "Fabulous idea! Can't wait for holiday card-making classes.", theme: "interest" },
+      { id: 23, text: "Evening timing is essential for working professionals.", theme: "time" },
+      { id: 24, text: "Is there any hands-on practice during the class?", theme: "interest" },
+      { id: 25, text: "Never done journaling, but willing to try if beginner-friendly.", theme: "beginner" }
+    ];
+
+    let sourceRatings = {};
+    let commentThemes = {};
+
+    function init() {
+      renderSources();
+      renderComments();
+    }
+
+    function validateStep1() {
+      const stmt = document.getElementById('decisionStmt').value.toLowerCase();
+      const feedback = document.getElementById('step1Feedback');
+      const step1Check = document.getElementById('step1Check');
+
+      if (stmt.length > 15) {
+        if (stmt.includes('whether') || stmt.includes('decide') || stmt.includes('convert')) {
+          feedback.className = "text-xs p-3 rounded-lg bg-emerald-950/40 border border-emerald-800 text-emerald-300";
+          feedback.innerHTML = "<i class='fa-solid fa-circle-check mr-1'></i> Strong choice-focused framing!";
+          step1Check.className = "flex items-center space-x-3 p-2.5 rounded-lg bg-emerald-950/30 border border-emerald-800 text-emerald-400";
+        } else {
+          feedback.className = "text-xs p-3 rounded-lg bg-amber-950/40 border border-amber-800 text-amber-300";
+          feedback.innerHTML = "<i class='fa-solid fa-triangle-exclamation mr-1'></i> Hint: Ensure you frame this as a choice ('whether to...'), not just a topic.";
+        }
+        feedback.classList.remove('hidden');
+      }
+    }
+
+    function renderSources() {
+      const container = document.getElementById('sourceContainer');
+      container.innerHTML = sources.map(s => `
+        <div class="bg-slate-950 border border-slate-800 p-4 rounded-lg flex flex-col sm:flex-row justify-between sm:items-center space-y-3 sm:space-y-0">
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="text-xs font-mono bg-slate-800 text-emerald-400 px-2 py-0.5 rounded">${s.id}</span>
+              <h4 class="text-xs font-bold text-slate-200">${s.name}</h4>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">${s.type} • <span class="text-slate-400 italic">${s.hint}</span></p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <select onchange="rateSource('${s.id}', this.value)" class="bg-slate-900 border border-slate-700 text-xs text-slate-200 rounded px-2 py-1 focus:outline-none">
+              <option value="">Select Rating...</option>
+              <option value="strong">Strong Credibility</option>
+              <option value="moderate">Moderate Credibility</option>
+              <option value="weak">Weak Credibility</option>
+            </select>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function rateSource(id, val) {
+      sourceRatings[id] = val;
+      const count = Object.keys(sourceRatings).filter(k => sourceRatings[k]).length;
+      document.getElementById('sourceRatingCounter').innerText = `${count}/6 Evaluated`;
+      
+      const step2Check = document.getElementById('step2Check');
+      if (count === 6) {
+        step2Check.className = "flex items-center space-x-3 p-2.5 rounded-lg bg-emerald-950/30 border border-emerald-800 text-emerald-400";
+        step2Check.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i><span>Step 2: Source Evaluation Complete</span>`;
+      }
+    }
+
+    function renderComments() {
+      const list = document.getElementById('commentList');
+      list.innerHTML = comments.map(c => `
+        <div class="bg-slate-950 border border-slate-800 p-3 rounded-lg flex items-center justify-between text-xs">
+          <span class="text-slate-300">"${c.text}"</span>
+          <select onchange="codeComment(${c.id}, this.value)" class="bg-slate-900 border border-slate-700 text-[11px] text-slate-300 rounded px-2 py-1 focus:outline-none">
+            <option value="">Tag Theme...</option>
+            <option value="interest">Hands-on Interest</option>
+            <option value="time">Time / Schedule</option>
+            <option value="price">Price Sensitivity</option>
+            <option value="beginner">Beginner Friendly</option>
+          </select>
+        </div>
+      `).join('');
+    }
+
+    function codeComment(id, theme) {
+      if (theme) commentThemes[id] = theme;
+      else delete commentThemes[id];
+
+      const counts = { interest: 0, time: 0, price: 0, beginner: 0 };
+      Object.values(commentThemes).forEach(t => { if (counts[t] !== undefined) counts[t]++; });
+
+      document.getElementById('count-interest').innerText = counts.interest;
+      document.getElementById('count-time').innerText = counts.time;
+      document.getElementById('count-price').innerText = counts.price;
+      document.getElementById('count-beginner').innerText = counts.beginner;
+
+      const total = Object.keys(commentThemes).length;
+      document.getElementById('commentCounter').innerText = `${total}/25 Categorized`;
+
+      const step3Check = document.getElementById('step3Check');
+      if (total >= 20) {
+        step3Check.className = "flex items-center space-x-3 p-2.5 rounded-lg bg-emerald-950/30 border border-emerald-800 text-emerald-400";
+        step3Check.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i><span>Step 3: Comment Coding Complete (${total}/25)</span>`;
+      }
+    }
+
+    function generateSummary() {
+      const stmt = document.getElementById('decisionStmt').value || "[Decision statement pending]";
+      const modal = document.getElementById('summaryModal');
+      const text = document.getElementById('summaryText');
+
+      let summary = `BACKGROUND EVIDENCE SUMMARY DRAFT\n`;
+      summary += `====================================\n\n`;
+      summary += `1. BUSINESS DECISION RESTATEMENT:\n${stmt}\n\n`;
+      summary += `2. SECONDARY SOURCE CREDIBILITY RATINGS:\n`;
+      sources.forEach(s => {
+        summary += `- ${s.id} (${s.name}): Rated ${sourceRatings[s.id] || "Unrated"}\n`;
+      });
+      summary += `\n3. CUSTOMER FEEDBACK THEMES:\n`;
+      summary += `- Hands-on Workshop Interest: ~${document.getElementById('count-interest').innerText} comments\n`;
+      summary += `- Time & Scheduling Barriers: ~${document.getElementById('count-time').innerText} comments\n`;
+      summary += `- Price Sensitivity: ~${document.getElementById('count-price').innerText} comments\n`;
+      summary += `- Beginner Concerns: ~${document.getElementById('count-beginner').innerText} comments\n`;
+
+      text.value = summary;
+      modal.classList.remove('hidden');
+    }
+
+    function copyToClipboard() {
+      const text = document.getElementById('summaryText');
+      text.select();
+      document.execCommand('copy');
+      alert('Background Evidence Summary copied to clipboard!');
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>
